@@ -9,12 +9,12 @@ module.exports = function(sequelize, DataTypes) {
         },
         user_id: {
             type: DataTypes.INTEGER,
-            unique: false,
+            unique: 'compositeIndex',
             allowNull: false
         },
         field_id: {
             type: DataTypes.INTEGER,
-            unique: false,
+            unique: 'compositeIndex',
             allowNull: false
         }
     }, {

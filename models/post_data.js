@@ -1,21 +1,36 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var User_Sub_Field_Association = sequelize.define("user_sub_field_association", {
+    var Post_Data = sequelize.define("post_data", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        user_id: {
+        post_unique_id: {
             type: DataTypes.INTEGER,
-            unique: 'compositeIndex',
+            unique: false,
             allowNull: false
         },
-        sub_field_id: {
+        author_id: {
             type: DataTypes.INTEGER,
-            unique: 'compositeIndex',
+            unique: false,
             allowNull: false
+        },
+        post_content: {
+            type: DataTypes.STRING(255),
+            unique: false,
+            allowNull: false
+        },
+        post_category: {
+            type: DataTypes.CHAR(1),
+            unique: false,
+            allowNull: false
+        },
+        post_text: {
+              type: DataTypes.TEXT('medium'),
+              unique: false,
+              allowNull: true
         }
     }, {
         classMethods: {
@@ -28,5 +43,5 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    return User_Sub_Field_Association;
+    return Post_Data;
 }

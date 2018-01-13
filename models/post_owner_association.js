@@ -1,20 +1,15 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var User_Sub_Field_Association = sequelize.define("user_sub_field_association", {
+    var Post_Owner_Association = sequelize.define("post_owner_association", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        user_id: {
+        owner_id: {
             type: DataTypes.INTEGER,
-            unique: 'compositeIndex',
-            allowNull: false
-        },
-        sub_field_id: {
-            type: DataTypes.INTEGER,
-            unique: 'compositeIndex',
+            unique: false,
             allowNull: false
         }
     }, {
@@ -28,5 +23,5 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    return User_Sub_Field_Association;
+    return Post_Owner_Association;
 }

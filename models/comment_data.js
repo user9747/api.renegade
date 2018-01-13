@@ -1,21 +1,21 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var User_Sub_Field_Association = sequelize.define("user_sub_field_association", {
+    var Comment_Data = sequelize.define("comment_data", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        user_id: {
+        comment_unique_id: {
             type: DataTypes.INTEGER,
-            unique: 'compositeIndex',
+            unique: false,
             allowNull: false
         },
-        sub_field_id: {
-            type: DataTypes.INTEGER,
-            unique: 'compositeIndex',
-            allowNull: false
+        comment_text: {
+              type: DataTypes.STRING('511'),
+              unique: false,
+              allowNull: false
         }
     }, {
         classMethods: {
@@ -28,5 +28,5 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    return User_Sub_Field_Association;
+    return Comment_Data;
 }
