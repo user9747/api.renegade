@@ -13,7 +13,10 @@
     "helmet": "^3.9.0",
     "mime": "^2.2.0",
     "morgan": "~1.9.0",
+    "mysql": "^2.15.0",
     "pug": "^2.0.0-rc.4",
+    "sequelize": "^4.31.0",
+    "sequelize-cli": "^3.2.0",
     "serve-favicon": "~2.4.5"
   }
 }

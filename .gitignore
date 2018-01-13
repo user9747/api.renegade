@@ -26,3 +26,8 @@ coverage
 # Benchmarking
 benchmarks/graphs
 
+#Sequelize
+*.swp
+*.swn
+*.swo
+config/config.json
