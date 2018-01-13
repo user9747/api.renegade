@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         email: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.STRING(255),
             unique: true,
             allowNull: false
         },
@@ -42,6 +42,11 @@ module.exports = function(sequelize, DataTypes) {
             unique: false,
             allowNull: false
         },
+        occupation: {
+          type: DataTypes.STRING(48),
+          unique: false,
+          allowNull: false
+        },
         channel: {
             type: DataTypes.INTEGER,
             unique: false,
@@ -50,8 +55,6 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                // models.entities.hasMany(models.information, { foreignKey: 'eid', targetKey: 'eid' }); //Admin is the target model--automatically created a foreign key
-                  // models.slugs.hasMany(models.information);
                   models.entities.hasMany(models.entityInformation);
                   models.entities.hasMany(models.menuData, { foreignKey: {
                     allowNull: false
