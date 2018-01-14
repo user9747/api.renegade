@@ -22,16 +22,25 @@ module.exports = function(sequelize, DataTypes) {
       unique: false,
       allowNull: false
     }
-  }, {
-    classMethods: {
-      associate: function(models) {
-        models.entities.hasMany(models.entityInformation);
-        models.entities.hasMany(models.menuData, { foreignKey: {
-          allowNull: false
-        } });
-      }
-    }
   });
+
+  User_One_To_One_Conversation_Data.associate = function (models) {
+    models.user_one_to_one_conversation_data.belongsTo(models.users, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        name: "sender_id"
+        // allowNull: false -- already defined
+      }
+    });
+
+    models.user_one_to_one_conversation_data.belongsTo(models.users, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        name: "recipient_id"
+        // allowNull: false -- already defined
+      }
+    });
+  };
 
   return User_One_To_One_Conversation_Data;
 }

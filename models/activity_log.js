@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     activity_name: {
       type: DataTypes.STRING(255),
-      unique: true,
+      unique: false,
       allowNull: false
     },
     activity_type: {
@@ -27,16 +27,17 @@ module.exports = function(sequelize, DataTypes) {
       unique: false,
       allowNull: true
     }
-  }, {
-    classMethods: {
-      associate: function(models) {
-        models.entities.hasMany(models.entityInformation);
-        models.entities.hasMany(models.menuData, { foreignKey: {
-          allowNull: false
-        } });
-      }
-    }
   });
+
+  Activity_Log.associate = function (models) {
+    models.activity_log.belongsTo(models.users, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        name: "user_id"
+        // allowNull: false -- already defined
+      }
+    });
+  };
 
   return Activity_Log;
 }

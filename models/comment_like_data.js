@@ -17,16 +17,25 @@ module.exports = function(sequelize, DataTypes) {
       unique: 'compositeIndex',
       allowNull: false
     }
-  }, {
-    classMethods: {
-      associate: function(models) {
-        models.entities.hasMany(models.entityInformation);
-        models.entities.hasMany(models.menuData, { foreignKey: {
-          allowNull: false
-        } });
-      }
-    }
   });
+
+  Comment_Like_Data.associate = function (models) {
+    models.comment_like_data.belongsTo(models.comment_author_association, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        name: "comment_id"
+        // allowNull: false -- already defined
+      }
+    });
+
+    models.comment_like_data.belongsTo(models.users, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        name: "user_id"
+        // allowNull: false -- already defined
+      }
+    });
+  };
 
   return Comment_Like_Data;
 }
