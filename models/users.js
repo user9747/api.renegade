@@ -46,11 +46,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(48),
       unique: false,
       allowNull: false
-    },
-    channel: {
-      type: DataTypes.INTEGER,
-      unique: false,
-      allowNull: false
     }
   }, {
     classMethods: {
