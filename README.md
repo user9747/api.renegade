@@ -1,6 +1,6 @@
 # Steps before npm start
 1) Add config/config.json
-
+```
 {
   "development": {
     "username": "root",
@@ -24,3 +24,4 @@
     "dialect": "mysql"
   }
 }
+```
