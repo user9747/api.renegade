@@ -46,11 +46,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(48),
       unique: false,
       allowNull: false
-    }
-  }, {
-    classMethods: {
-      associate: function(models) {
-      }
+    },
+    role_id: {
+      type: DataTypes.INTEGER,
+      unique: false,
+      allowNull: false
     }
   });
 

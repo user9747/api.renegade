@@ -26,8 +26,11 @@ coverage
 # Benchmarking
 benchmarks/graphs
 
-#Sequelize
+# Sequelize
 *.swp
 *.swn
 *.swo
 config/config.json
+
+# Other config including JWT Secret Key
+config/config.js

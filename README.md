@@ -28,3 +28,9 @@
   }
 }
 ```
+2) Add config/config.js
+```
+module.exports = {
+  'JWTsecret': 'supersecret'
+};
+```
