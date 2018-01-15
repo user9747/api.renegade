@@ -65,15 +65,17 @@ passport.use(new LocalStrategy(
       }
 
       var tokenData = {
-        username:user.username,
         id:user.id,
-        role:user.role_id
+        username:user.username,
+        role_id:user.role_id
       }
 
       // console.log(tokenData);
 
       let token = jwt.sign(tokenData , JWTsecret , {
-        expiresIn:"4h"
+        expiresIn: "4h",
+        audience: "Renegade-Private-APIs",
+        issuer: "Renegade-Authentication-API"
       })
 
       res.json({"token": token});
