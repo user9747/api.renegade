@@ -25,7 +25,6 @@ router.get('/fields', function(req, res, next) {
 })
 });
 
-
 router.get('/occupations', function(req, res, next) {
   models.occupations.findAll({attributes: ['id', 'occupation']}).then(function(occupations) {
     // fields will be an array of all fields instances
