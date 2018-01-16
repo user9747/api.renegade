@@ -25,4 +25,23 @@ router.get('/fields', function(req, res, next) {
 })
 });
 
+
+router.get('/occupations', function(req, res, next) {
+  models.occupations.findAll({attributes: ['id', 'occupation']}).then(function(occupations) {
+    // fields will be an array of all fields instances
+    if(occupations.length == 0)
+    {
+      // array empty
+      res.json({"state": "failure",
+      "description-slug": "error-occupations-empty",
+      "description": "occupations empty."}
+    );
+  }
+  else
+  {
+    res.json(occupations);
+  }
+})
+});
+
 module.exports = router;
