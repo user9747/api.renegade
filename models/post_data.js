@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
       unique: false,
       allowNull: false
     },
-    post_category: {
+    post_status: {
       type: DataTypes.CHAR(1),
       unique: false,
       allowNull: false
@@ -31,6 +31,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT('medium'),
       unique: false,
       allowNull: true
+    },
+    post_image: {
+      type: DataTypes.STRING(255),
+      unique: false,
+      allowNull: false
     }
   });
 

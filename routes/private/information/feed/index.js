@@ -27,20 +27,22 @@ router.post('/', bearerToken(), function(req, res, next) {
       {
         // correct content_type in header
         var userID = decoded.id;
-        res.json({"userID": decoded.id});
-      }
+        res.json({"userID": userID,
+        "required_number": req.body.required_number
+      });
     }
-    else
-    {
-      // log error to the console
-      console.log(err);
-
-      // error occurred
-      res.json({"state": "failure",
-      "description-slug": "error-jwt-verification",
-      "description": "Error occurred during verification of jwt token. Verify token used or obtain new token from Authentication API."
-    });
   }
+  else
+  {
+    // log error to the console
+    console.log(err);
+
+    // error occurred
+    res.json({"state": "failure",
+    "description-slug": "error-jwt-verification",
+    "description": "Error occurred during verification of jwt token. Verify token used or obtain new token from Authentication API."
+  });
+}
 });
 });
 
