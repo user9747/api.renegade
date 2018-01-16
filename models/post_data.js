@@ -35,7 +35,7 @@ module.exports = function(sequelize, DataTypes) {
     post_image: {
       type: DataTypes.STRING(255),
       unique: false,
-      allowNull: false
+      allowNull: true
     }
   });
 
