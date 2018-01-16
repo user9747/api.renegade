@@ -42,8 +42,8 @@ module.exports = function(sequelize, DataTypes) {
       unique: false,
       allowNull: false
     },
-    occupation: {
-      type: DataTypes.STRING(48),
+    occupation_id: {
+      type: DataTypes.INTEGER,
       unique: false,
       allowNull: false
     },
@@ -53,6 +53,16 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   });
+
+  Users.associate = function(models) {
+    models.users.belongsTo(models.occupations, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        name: "occupation_id"
+        // allowNull: false -- already defined
+      }
+    });
+  };
 
   return Users;
 }
