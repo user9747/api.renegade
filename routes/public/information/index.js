@@ -12,17 +12,17 @@ router.get('/fields', function(req, res, next) {
     // fields will be an array of all fields instances
     if(fields.length == 0)
     {
-        // array empty
-        res.json({"state": "failure",
-                  "description-slug": "error-fields-empty",
-                  "description": "Fields empty."}
-      );
-    }
-    else
-    {
-      res.json(fields);
-    }
-  })
+      // array empty
+      res.json({"state": "failure",
+      "description-slug": "error-fields-empty",
+      "description": "Fields empty."}
+    );
+  }
+  else
+  {
+    res.json(fields);
+  }
+})
 });
 
 module.exports = router;

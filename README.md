@@ -31,6 +31,8 @@
 2) Add config/config.js
 ```
 module.exports = {
-  'JWTsecret': 'supersecret'
+  'JWTsecret': 'supersecret',
+  'JWTaudience': 'Blah-Blah',
+  'JWTissuer': 'Blah-Blah-Blah-Blah'
 };
 ```

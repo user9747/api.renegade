@@ -8,6 +8,8 @@ var ExtractJwt = require('passport-jwt').ExtractJwt;
 var models = require('../models');
 
 var JWTsecret = require('../config/config.js').JWTsecret;
+var JWTaudience = require('../config/config.js').JWTaudience;
+var JWTissuer = require('../config/config.js').JWTissuer;
 
 router.get('/', function(req, res, next) {
   // res.render('index', { title: 'Express' });
@@ -25,8 +27,8 @@ var opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 
 opts.secretOrKey = JWTsecret;
-opts.audience = 'Renegade-Private-APIs';
-opts.issuer = 'Renegade-Authentication-API';
+opts.audience = JWTaudience;
+opts.issuer = JWTissuer;
 
 passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
   models.users.findOne({

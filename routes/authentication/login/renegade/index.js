@@ -9,6 +9,8 @@ var jwt = require('jsonwebtoken');
 var models = require('../../../../models');
 
 var JWTsecret = require('../../../../config/config.js').JWTsecret;
+var JWTaudience = require('../../../../config/config.js').JWTaudience;
+var JWTissuer = require('../../../../config/config.js').JWTissuer;
 
 router.get('/', function(req, res, next) {
   res.json({"status":"functional"});
@@ -74,8 +76,8 @@ passport.use(new LocalStrategy(
 
       let token = jwt.sign(tokenData , JWTsecret , {
         expiresIn: "4h",
-        audience: "Renegade-Private-APIs",
-        issuer: "Renegade-Authentication-API"
+        audience: JWTaudience,
+        issuer: JWTissuer
       })
 
       res.json({"token": token});
