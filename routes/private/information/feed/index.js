@@ -26,9 +26,35 @@ router.post('/', bearerToken(), function(req, res, next) {
       else
       {
         // correct content_type in header
+
+        // save userID from decoded data
         var userID = decoded.id;
+        var offset = req.body.offset;
+        var required_number = req.body.required_number;
+
         res.json({"userID": userID,
-        "required_number": req.body.required_number
+        "offset": offset,
+        "required_number": required_number
+      });
+
+      if(offset == null)
+      {
+        offset = 0;
+      }
+      
+      models.post_data.findAll({
+        offset: offset,
+        limit: required_number,
+        include: [{ model: models.entities, attributes: [`ename`], where: { ename: req.params.entity }}, { model: models.entitySlugs, attributes: [`slugName`], where: { slugName: req.params.slug } }],
+        // where: { ename: req.params.entity },
+        attributes: ['data']
+      }).then(function(result) {
+        result = result[0].data;
+        res.json({ "value": result });
+        // return result;
+      }).catch(function (err) {
+        // handle error;
+        res.json({ "success": "false" });
       });
     }
   }

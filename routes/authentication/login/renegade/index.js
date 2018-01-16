@@ -60,7 +60,9 @@ passport.use(new LocalStrategy(
       return next(err);
 
       if(!user)
-      return res.send({message:"Error authenticating. Username or password is incorrect"})
+      return res.json({"state": "failure",
+      "description_slug": "error-login-renegade",
+      "description":"Error authenticating. Username or password is incorrect"})
 
       if(err){
         return next(err);
@@ -80,7 +82,10 @@ passport.use(new LocalStrategy(
         issuer: JWTissuer
       })
 
-      res.json({"token": token});
+      res.json({"state": "success",
+      "description_slug": "success-login-renegade",
+      "description": "Successful login.",
+      "token": token});
     })(req,res,next)
   })
   module.exports = router;
