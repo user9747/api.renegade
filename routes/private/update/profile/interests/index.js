@@ -12,24 +12,37 @@ router.get('/', function(req, res, next) {
   res.json({"status": "functional"});
 });
 
-router.post('/interests', bearerToken(), function(req, res, next) {
+router.post('/', bearerToken(), function(req, res, next) {
   jwt.verify(req.token, JWTsecret, { audience: JWTaudience, issuer: JWTissuer }, function(err, decoded) {
-    // if subject mismatch, err == invalid subject
-    //   res.json({"err": err,
-    //   "decoded": decoded});
-    // });
     if(err == null)
     {
-      // no error
+      // no error in jwt verification
+      var content_type = req.headers['content-type'];
+
+      if (!content_type || content_type.indexOf('application/json') !== 0)
+      {
+        return res.send(400);
+      }
+      else
+      {
+        // correct content_type in header
+        var userID = decoded.id;
+        res.json({"userID": userID,
+        "required_number": req.body.required_number
+      });
     }
-    else
-    {
-      // error occurred
-      res.json({"state": "failure",
-      "description-slug": "error-jwt-verification",
-      "description": "Error occurred during verification of jwt token. Verify token used or obtain new token from Authentication API."
-    });
   }
+  else
+  {
+    // log error to the console
+    console.log(err);
+
+    // error occurred
+    res.json({"state": "failure",
+    "description-slug": "error-jwt-verification",
+    "description": "Error occurred during verification of jwt token. Verify token used or obtain new token from Authentication API."
+  });
+}
 });
 });
 
