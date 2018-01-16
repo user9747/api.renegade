@@ -5,7 +5,6 @@ router.get('/', function(req, res, next) {
   res.json({"status":"functional"});
 });
 
-router.use('/login', require('./login'));
-router.use('/signup', require('./signup'));
+router.use('/information', require('./information'));
 
 module.exports = router;

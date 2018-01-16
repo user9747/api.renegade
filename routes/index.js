@@ -17,6 +17,9 @@ router.get('/', function(req, res, next) {
 // authentication apis
 router.use('/authentication', require('./authentication'));
 
+// public apis
+router.use('/public', require('./public'));
+
 var opts = {}
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
