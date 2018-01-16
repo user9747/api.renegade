@@ -40,7 +40,7 @@ router.post('/', function(req, res, next) {
                     avatar: req.body.avatar,
                     username: req.body.username,
                     password_hash: hash,
-                    occupation: req.body.occupation,
+                    occupation_id: req.body.occupation_id,
                     role_id: 1
                   }).then(function(user){
                     res.json({"state": "success",
