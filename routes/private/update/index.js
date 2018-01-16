@@ -5,6 +5,6 @@ router.get('/', function(req, res, next) {
   res.json({"status": "functional"});
 });
 
-router.use('/update', require('./update'));
+router.use('/profile', require('./profile'));
 
 module.exports = router;
