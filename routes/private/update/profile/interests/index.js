@@ -33,7 +33,7 @@ router.post('/', bearerToken(), function(req, res, next) {
         // correct content_type in header
 
         var addStatusArray = [];
-        var promises = [];
+        var promisesAdd = [];
 
         // save userID from decoded data
         var userID = decoded.id;
@@ -48,26 +48,27 @@ router.post('/', bearerToken(), function(req, res, next) {
         function asyncAddUpdate(value)
         {
           return new Promise(function(resolve){
-            models.user_field_association.findOrCreate({where: {user_id: userID, field_id: value }}).then(function(association, created) {
+            models.user_field_association.findOrCreate({where: {user_id: userID, field_id: value }}).spread(function(association, created) {
               // console.log(created)
-              console.log(addStatusArray);
               if(created)
               {
                 // console.log(addStatusArray);
                 addStatusArray.push({
                   "state": "success",
-                  "description_slug": "success-profile-interests-created",
-                  "description": "Profile interests successfully created."
+                  "description_slug": "success-profile-field-association-created",
+                  "description": "Profile field association successfully created.",
+                  "field_id": value
                 });
                 resolve();
               }
               else
               {
-                console.log(addStatusArray);
+                // console.log(addStatusArray);
                 addStatusArray.push({
                   "state": "success",
-                  "description_slug": "success-profile-interests-updated",
-                  "description": "Profile interests successfully updated."
+                  "description_slug": "success-profile-fields-association-updated",
+                  "description": "Profile fields association successfully updated.",
+                  "field_id": value
                 });
                 resolve();
               }
@@ -76,12 +77,13 @@ router.post('/', bearerToken(), function(req, res, next) {
               // handle error
               console.log(err);
 
-              console.log(addStatusArray);
+              // console.log(addStatusArray);
 
               addStatusArray.push({
                 "state": "failure",
-                "description_slug": "error-profile-interests-update",
-                "description": "Profile interests update request could not be completed."
+                "description_slug": "error-profile-fields-association-update",
+                "description": "Profile fields association update request could not be completed.",
+                "field_id": value
               });
               resolve();
             });
@@ -92,13 +94,100 @@ router.post('/', bearerToken(), function(req, res, next) {
         _.forEach(add, function(value) {
           // console.log(value);
           // console.log(addStatusArray);
-          promises.push(asyncAddUpdate(value));
+          promisesAdd.push(asyncAddUpdate(value));
         });
 
-        Promise.all(promises).then(function() {
-          // console.log("all promises were pushed");
-          res.json({
-            "add_returns": addStatusArray
+        Promise.all(promisesAdd).then(function() {
+          // console.log("all promisesAdd were pushed");
+          // res.json({
+          //   "add_returns": addStatusArray
+          // });
+
+          var subStatusArray = [];
+          var promisesSub = [];
+
+          function asyncSubUpdate(value)
+          {
+            return new Promise(function(resolve){
+              models.user_field_association.find({where: {user_id: userID, field_id: value }}).then(function(association) {
+                // console.log(created)
+                // console.log(subStatusArray);
+                if(association != null)
+                {
+                  function destroyAssociation(association)
+                  {
+                    return association.destroy();
+                  }
+
+                  destroyAssociation(association).then(function(){
+                    // association deleted here
+
+                    // console.log(subStatusArray);
+                    subStatusArray.push({
+                      "state": "success",
+                      "description_slug": "success-profile-fields-association-updated",
+                      "description": "Profile fields association successfully updated.",
+                      "field_id": value
+                    });
+                    resolve();
+                  }).catch(function(err)
+                  {
+                    // handle error
+                    console.log(err);
+
+                    // console.log(subStatusArray);
+
+                    subStatusArray.push({
+                      "state": "failure",
+                      "description_slug": "error-profile-fields-association-update",
+                      "description": "Profile fields association update request could not be completed.",
+                      "field_id": value
+                    });
+                    resolve();
+                  });
+                }
+                else
+                {
+                  console.log("association = null for field_id = "+value);
+                  subStatusArray.push({
+                    "state": "failure",
+                    "description_slug": "error-profile-fields-association-update",
+                    "description": "Profile fields association update request could not be completed.",
+                    "field_id": value
+                  });
+                  resolve();
+                }
+              }).catch(function(err)
+              {
+                // handle error
+                console.log(err);
+
+                // console.log(subStatusArray);
+
+                subStatusArray.push({
+                  "state": "failure",
+                  "description_slug": "error-profile-fields-association-update",
+                  "description": "Profile fields association update request could not be completed.",
+                  "field_id": value
+                });
+                resolve();
+              });
+            });
+          }
+
+          // console.log(subStatusArray);
+          _.forEach(sub, function(value) {
+            // console.log(value);
+            // console.log(subStatusArray);
+            promisesSub.push(asyncSubUpdate(value));
+          });
+
+          Promise.all(promisesSub).then(function() {
+            // console.log("all promises were pushed");
+            res.json({
+              "add_returns": addStatusArray,
+              "sub_returns": subStatusArray
+            });
           });
         });
       }
