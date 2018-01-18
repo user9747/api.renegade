@@ -7,17 +7,18 @@ var bearerToken = require('express-bearer-token');
 var _ = require('lodash');
 var Promise = require("bluebird");
 
-var JWTsecret = require('../../../../config/config.js').JWTsecret;
-var JWTaudience = require('../../../../config/config.js').JWTaudience;
-var JWTissuer = require('../../../../config/config.js').JWTissuer;
 
-var models = require('../../../../models');
+
+var JWTsecret = require('../../../../../config/config.js').JWTsecret;
+var JWTaudience = require('../../../../../config/config.js').JWTaudience;
+var JWTissuer = require('../../../../../config/config.js').JWTissuer;
+
+var models = require('../../../../../models');
 
 router.get('/', function(req, res, next) {
   res.json({"status": "functional"});
 });
 
-router.use('/own', require('./own'));
 
 router.post('/', bearerToken(), function(req, res, next) {
   jwt.verify(req.token, JWTsecret, { audience: JWTaudience, issuer: JWTissuer }, function(err, decoded) {
@@ -79,6 +80,7 @@ router.post('/', bearerToken(), function(req, res, next) {
 
         // return all current posts
         models.post_data.findAll({
+          where: { author_id: userID },
           offset: offset,
           limit: required_number,
           order: [['updatedAt', 'DESC']],
@@ -195,5 +197,6 @@ else
 }
 });
 });
+
 
 module.exports = router;
