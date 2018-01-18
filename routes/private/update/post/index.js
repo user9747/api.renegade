@@ -45,4 +45,6 @@ router.post('/', bearerToken(), function(req, res, next) {
 });
 });
 
+router.use('/like', require('./like'));
+
 module.exports = router;
