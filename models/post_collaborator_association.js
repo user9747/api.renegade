@@ -9,12 +9,12 @@ module.exports = function(sequelize, DataTypes) {
     },
     post_id: {
       type: DataTypes.INTEGER,
-      unique: false,
+      unique: 'compositeIndex',
       allowNull: false
     },
     collaborator_id: {
       type: DataTypes.INTEGER,
-      unique: false,
+      unique: 'compositeIndex',
       allowNull: false
     }
   });
