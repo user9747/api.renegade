@@ -6,6 +6,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.use('/create', require('./create'));
+router.use('/delete', require('./delete'));
 router.use('/information', require('./information'));
 router.use('/update', require('./update'));
 
