@@ -6,5 +6,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.use('/profile', require('./profile'));
+router.use('/post', require('./post'));
 
 module.exports = router;

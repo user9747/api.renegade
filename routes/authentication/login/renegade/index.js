@@ -55,37 +55,46 @@ passport.use(new LocalStrategy(
   }));
 
   router.post('/', function(req, res, next) {
-    passport.authenticate('local' ,function(err, user , info){
-      if(err)
-      return next(err);
+    var content_type = req.headers['content-type'];
 
-      if(!user)
-      return res.json({"state": "failure",
-      "description_slug": "error-login-renegade",
-      "description":"Error authenticating. Username or password is incorrect"})
-
-      if(err){
+    if (!content_type || content_type.indexOf('application/json') !== 0)
+    {
+      return res.send(400);
+    }
+    else
+    {
+      passport.authenticate('local' ,function(err, user , info){
+        if(err)
         return next(err);
-      }
 
-      var tokenData = {
-        id:user.id,
-        username:user.username,
-        role_id:user.role_id
-      }
+        if(!user)
+        return res.json({"state": "failure",
+        "description_slug": "error-login-renegade",
+        "description":"Error authenticating. Username or password is incorrect"})
 
-      // console.log(tokenData);
+        if(err){
+          return next(err);
+        }
 
-      let token = jwt.sign(tokenData , JWTsecret , {
-        expiresIn: "4h",
-        audience: JWTaudience,
-        issuer: JWTissuer
-      })
+        var tokenData = {
+          id:user.id,
+          username:user.username,
+          role_id:user.role_id
+        }
 
-      res.json({"state": "success",
-      "description_slug": "success-login-renegade",
-      "description": "Successful login.",
-      "token": token});
-    })(req,res,next)
-  })
+        // console.log(tokenData);
+
+        let token = jwt.sign(tokenData , JWTsecret , {
+          expiresIn: "4h",
+          audience: JWTaudience,
+          issuer: JWTissuer
+        })
+
+        res.json({"state": "success",
+        "description_slug": "success-login-renegade",
+        "description": "Successful login.",
+        "token": token});
+      })(req,res,next)
+    }
+  });
   module.exports = router;

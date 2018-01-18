@@ -5,6 +5,6 @@ router.get('/', function(req, res, next) {
   res.json({"status": "functional"});
 });
 
-router.use('/interests', require('./interests'));
+router.use('/fields', require('./fields'));
 
 module.exports = router;
