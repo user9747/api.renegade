@@ -101,6 +101,7 @@ router.post('/', function(req, res, next) {
     }
     else
     {
+      console.log(err);
       res.status(500).json({"status": 500,
       "state": "failure"});
     }
@@ -108,6 +109,7 @@ router.post('/', function(req, res, next) {
 }
 else
 {
+  console.log(err);
   res.status(500).json({"status": 500,
   "state": "failure"});
 }

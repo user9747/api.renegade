@@ -28,8 +28,8 @@ passport.use(new LocalStrategy(
         if(user != null)
         {
           //verify password here
-          bcrypt.compare(password, user.password_hash).then((res) => {
-            if(res == true)
+          bcrypt.compare(password, user.password_hash).then((result) => {
+            if(result == true)
             {
               return done(null, user);
             }
@@ -37,6 +37,10 @@ passport.use(new LocalStrategy(
             {
               return done(null, false);
             }
+          }).catch(function(err)
+          {
+            // handle error
+            return done(err);
           });
         }
         else

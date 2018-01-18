@@ -4,6 +4,8 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var bearerToken = require('express-bearer-token');
 
+var bcrypt = require('bcryptjs');
+
 var JWTsecret = require('../../../../../config/config.js').JWTsecret;
 var JWTaudience = require('../../../../../config/config.js').JWTaudience;
 var JWTissuer = require('../../../../../config/config.js').JWTissuer;
@@ -32,6 +34,8 @@ router.post('/', bearerToken(), function(req, res, next) {
         // save userID from decoded data
         var userID = decoded.id;
 
+        var old_password = req.body.old_password;
+
         // verify old_password
         models.users.findOne({
           where: { id: userID },
@@ -41,29 +45,116 @@ router.post('/', bearerToken(), function(req, res, next) {
           if(user != null)
           {
             //verify password here
-            bcrypt.compare(password, user.password_hash).then((res) => {
-              if(res == true)
+            bcrypt.compare(old_password, user.password_hash).then((result) => {
+              if(result == true)
               {
                 // correct password
-                return done(null, user);
+
+                var new_password = req.body.new_password;
+
+                // add new_password to user's row
+                bcrypt.genSalt(10, function(err, salt) {
+                  if(!err)
+                  {
+                    bcrypt.hash(new_password, salt, function(err, hash) {
+                      if(!err)
+                      {
+                        if(hash)
+                        {
+                          user.password_hash = hash;
+
+                          // save changes to database
+                          user.save().then(function(){
+                            res.json({
+                              "state": "success",
+                              "description_slug": "success-update-profile-password",
+                              "description": "Password change request completed successfully."
+                            });
+                          }).catch(function(err)
+                          {
+                            // handle error
+                            console.log(err);
+
+                            res.status(500).json({
+                              "state": "failure",
+                              "description_slug": "error-update-profile-password",
+                              "description": "Password change request could not be completed."
+                            });
+                          });
+                        }
+                        else
+                        {
+                          res.status(500).json({
+                            "state": "failure",
+                            "description_slug": "error-update-profile-password",
+                            "description": "Password change request could not be completed."
+                          });
+                        }
+                      }
+                      else
+                      {
+                        // handle error
+                        console.log(err);
+
+                        res.status(500).json({
+                          "state": "failure",
+                          "description_slug": "error-update-profile-password",
+                          "description": "Password change request could not be completed."
+                        });
+                      }
+                    });
+                  }
+                  else
+                  {
+                    // handle error
+                    console.log(err);
+
+                    res.status(500).json({
+                      "state": "failure",
+                      "description_slug": "error-update-profile-password",
+                      "description": "Password change request could not be completed."
+                    });
+                  }
+                });
               }
               else
               {
                 // incorrect password
-                return done(null, false);
+                res.status(403).json({
+                  "state": "failure",
+                  "description_slug": "error-update-profile-password-incorrect-password",
+                  "description": "Incorrect old_password. Password change request could not be completed."
+                });
               }
+            }).catch(function(err)
+            {
+              // handle error
+              console.log(err);
+
+              res.status(500).json({
+                "state": "failure",
+                "description_slug": "error-update-profile-password",
+                "description": "Password change request could not be completed."
+              });
             });
           }
           else
           {
             // user not found
-            return done(null, false);
+            res.status(500).json({"state": "failure",
+            "description_slug": "error-update-profile-password",
+            "description": "Password change request could not be completed."});
           }
         }).catch(function(err)
         {
-          console.log(err);
           // handle error
+          console.log(err);
 
+          res.status(500).json({
+            "state": "failure",
+            "description_slug": "error-update-profile-password",
+            "description": "Password change request could not be completed."
+          });
         });
       }
     }
