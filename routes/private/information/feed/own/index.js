@@ -129,6 +129,13 @@ router.post('/', bearerToken(), function(req, res, next) {
                         user_id: userID
                       }
                     }).then(function(post_like_data_element){
+
+                      models.user_post_follow_request_data.count({
+                        where: { post_id: post.post_id },
+                        raw: true
+                      }).then(function(request_count){
+
+
                       var returnElement = post;
 
                     delete returnElement.author_id;
@@ -136,6 +143,8 @@ router.post('/', bearerToken(), function(req, res, next) {
                     returnElement.author = user;
 
                     returnElement.like_count = like_count;
+
+                    returnElement.request_count = request_count;
 
                     if(post_like_data_element == null)
                     {
@@ -151,6 +160,11 @@ router.post('/', bearerToken(), function(req, res, next) {
                     returnObject.push(returnElement);
 
                     resolve();
+                    }).catch(function(err){
+                      console.log(err);
+
+                      reject();
+                    });
                   }).catch(function(err){
                     console.log(err);
 
