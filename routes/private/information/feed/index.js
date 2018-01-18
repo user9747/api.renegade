@@ -94,8 +94,10 @@ router.post('/', bearerToken(), function(req, res, next) {
 
                     // check for current_user_post_like_state
                     models.post_like_data.findOne({
-                      post_id: post.post_id,
-                      user_id: userID
+                      where: {
+                        post_id: post.post_id,
+                        user_id: userID
+                      }
                     }).then(function(post_like_data_element){
                       var returnElement = post;
 
