@@ -55,7 +55,7 @@ router.post('/', bearerToken(), function(req, res, next) {
                 // console.log(addStatusArray);
                 addStatusArray.push({
                   "state": "success",
-                  "description_slug": "success-profile-field-association-created",
+                  "description_slug": "success-profile-field-association-create",
                   "description": "Profile field association successfully created.",
                   "field_id": value
                 });
@@ -66,7 +66,7 @@ router.post('/', bearerToken(), function(req, res, next) {
                 // console.log(addStatusArray);
                 addStatusArray.push({
                   "state": "success",
-                  "description_slug": "success-profile-fields-association-updated",
+                  "description_slug": "success-profile-fields-association-update",
                   "description": "Profile fields association successfully updated.",
                   "field_id": value
                 });
@@ -125,8 +125,8 @@ router.post('/', bearerToken(), function(req, res, next) {
                     // console.log(subStatusArray);
                     subStatusArray.push({
                       "state": "success",
-                      "description_slug": "success-profile-fields-association-updated",
-                      "description": "Profile fields association successfully updated.",
+                      "description_slug": "success-profile-fields-association-update",
+                      "description": "Profile fields association successfully update.",
                       "field_id": value
                     });
                     resolve();

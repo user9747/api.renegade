@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
       unique: true,
       allowNull: false
     },
-    avatar: {
+    profile_picture: {
       type: DataTypes.STRING(255),
       unique: false,
       allowNull: false

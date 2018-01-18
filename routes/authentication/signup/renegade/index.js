@@ -45,7 +45,7 @@ router.post('/', function(req, res, next) {
                       second_name: req.body.second_name,
                       gender: req.body.gender,
                       email: req.body.email,
-                      avatar: req.body.avatar,
+                      profile_picture: "default.jpeg",
                       username: req.body.username,
                       password_hash: hash,
                       occupation_id: req.body.occupation_id,
@@ -59,7 +59,7 @@ router.post('/', function(req, res, next) {
                   {
                     // handle error
                     console.log("Error:"+err);
-                    res.json({"state": "failure",
+                    res.status(500).json({"state": "failure",
                     "description_slug": "error-unknown",
                     "description": "Error occurred during signup. Verify methods and post data."});
                   });
@@ -67,7 +67,7 @@ router.post('/', function(req, res, next) {
                 else
                 {
                   // email already exists
-                  res.json({"state": "failure",
+                  res.status(409).json({"state": "failure",
                   "description_slug": "error-email-exists",
                   "description": "email already exists. Cannot proceed with signup."
                 });
@@ -76,7 +76,7 @@ router.post('/', function(req, res, next) {
             {
               // handle error
               console.log("Error:"+err);
-              res.json({"state": "failure",
+              res.status(500).json({"state": "failure",
               "description_slug": "error-unknown",
               "description": "Error occurred during signup. Verify methods and post data."});
             });
@@ -84,7 +84,7 @@ router.post('/', function(req, res, next) {
           else
           {
             // username already exists
-            res.json({"state": "failure",
+            res.status(409).json({"state": "failure",
             "description_slug": "error-username-exists",
             "description": "username already exists. Cannot proceed with signup."
           });
@@ -93,7 +93,7 @@ router.post('/', function(req, res, next) {
       {
         // handle error
         console.log("Error:"+err);
-        res.json({"state": "failure",
+        res.status(500).json({"state": "failure",
         "description_slug": "error-unknown",
         "description": "Error occurred during signup. Verify methods and post data."});
       });
