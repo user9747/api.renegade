@@ -13,6 +13,8 @@ var JWTissuer = require('../../../../config/config.js').JWTissuer;
 
 var models = require('../../../../models');
 
+var sequelize = models.sequelize;
+
 router.get('/', function(req, res, next) {
   res.json({"status": "functional"});
 });
@@ -49,41 +51,8 @@ router.post('/', bearerToken(), function(req, res, next) {
           offset = 0;
         }
 
-        // models.post_data.findAll({
-        //   offset: offset,
-        //   limit: required_number,
-        //   order: [['updatedAt', 'DESC']],
-        //   include: [{ model: models.post_sub_field_association }]
-        //   // where: { ename: req.params.entity },
-        //   // attributes: ['data']
-        // }).then(function(result) {
-        //   if(result == null || result.length == 0)
-        //   {
-        //     // no result
-        //     res.json({"state": "success",
-        //     "description_slug": "success-feeds-empty",
-        //     "description": "Feeds empty for the current request."});
-        //   }
-        //   else
-        //   {
-        //     result = result[0].data;
-        //
-        //     // return result;
-        //     res.json({ "value": result });
-        //   }
-        // }).catch(function (err) {
-        //   console.log(err);
-        //   // handle error;
-        //   res.status(500).json({ "success": "false" });
-        // });
-
         // return all current posts
-        models.post_data.findAll({
-          offset: offset,
-          limit: required_number,
-          order: [['updatedAt', 'DESC']],
-          raw: true
-        }).then(function(result){
+        sequelize.query("SELECT * FROM post_data p1 WHERE p1.updatedAt IN (SELECT MAX(updatedAt) FROM post_data p2 GROUP BY post_id)", { type: sequelize.QueryTypes.SELECT}).then(function(result){
           if(result == null || result.length == 0)
           {
             // no result
@@ -122,17 +91,39 @@ router.post('/', bearerToken(), function(req, res, next) {
                     where: { post_id: post.post_id },
                     raw: true
                   }).then(function(like_count){
-                    var returnElement = post;
 
-                    delete returnElement.author_id;
+                    // check for current_user_post_like_state
+                    models.post_like_data.findOne({
+                      post_id: post.post_id,
+                      user_id: userID
+                    }).then(function(post_like_data_element){
+                      var returnElement = post;
 
-                    returnElement.author = user;
+                      delete returnElement.author_id;
 
-                    returnElement.like_count = like_count;
+                      returnElement.author = user;
 
-                    returnObject.push(returnElement);
+                      returnElement.like_count = like_count;
 
-                    resolve();
+                      if(post_like_data_element == null)
+                      {
+                        // not liked
+                        returnElement.current_user_post_like_state = false;
+                      }
+                      else
+                      {
+                        // liked
+                        returnElement.current_user_post_like_state = true;
+                      }
+
+                      returnObject.push(returnElement);
+
+                      resolve();
+                    }).catch(function(err){
+                      console.log(err);
+
+                      reject();
+                    });
                   }).catch(function(err){
                     console.log(err);
 
@@ -165,6 +156,7 @@ router.post('/', bearerToken(), function(req, res, next) {
         });
       });
     }
+    // res.json({"post_ids": post_ids});
   }).catch(function (err) {
     console.log(err);
     // handle error;
