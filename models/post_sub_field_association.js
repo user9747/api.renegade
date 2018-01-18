@@ -16,6 +16,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       unique: false,
       allowNull: false
+    },
+    association_status: {
+      type: DataTypes.CHAR(1),
+      unique: false,
+      allowNull: false
     }
   });
 

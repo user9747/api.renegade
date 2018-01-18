@@ -10,15 +10,11 @@ var JWTissuer = require('../../../../../../config/config.js').JWTissuer;
 
 var models = require('../../../../../../models');
 
-
-
 router.get('/', function(req, res, next) {
-  res.json({"status": "functional"});
+  res.json({ "status": "functional" });
 });
 
 router.post('/', bearerToken(), function(req, res, next) {
-  //res.json({"status": "functional"});
-
   jwt.verify(req.token, JWTsecret, { audience: JWTaudience, issuer: JWTissuer }, function(err, decoded) {
     if(err == null)
     {
@@ -31,7 +27,9 @@ router.post('/', bearerToken(), function(req, res, next) {
       }
       else
       {
+        // correct content_type
 
+        // save userID from decoded data
         var userID = decoded.id;
 
         res.json({"userID": userID});
@@ -48,9 +46,7 @@ router.post('/', bearerToken(), function(req, res, next) {
       "description": "Error occurred during verification of jwt token. Verify token used or obtain new token from Authentication API."
     });
   }
-
 });
 });
-
 
 module.exports = router;

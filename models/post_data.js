@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
       unique: false,
       allowNull: false
     },
-    post_status: {
+    post_element_status: {
       type: DataTypes.CHAR(1),
       unique: false,
       allowNull: false

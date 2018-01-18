@@ -11,7 +11,12 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       unique: false,
       allowNull: false
-    }
+    },
+    post_status: {
+    type: DataTypes.CHAR(1),
+    unique: false,
+    allowNull: false
+  }
   });
 
   Post_Owner_Association.associate = function (models) {
