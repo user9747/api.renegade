@@ -37,7 +37,8 @@ router.post('/', bearerToken(), function(req, res, next) {
       else
       {
         // save userID from decoded data
-        var userID = decoded.id;
+        //var userID = decoded.id;
+        var userID = req.body.user_id;
         var postID = req.body.post_id;
         // res.json({"userid":userID});
 
