@@ -5,8 +5,4 @@ router.get('/', function(req, res, next) {
   res.json({"status": "functional"});
 });
 
-router.use('/fields', require('./fields'));
-router.use('/password', require('./password'));
-router.use('/ui', require('./ui'));
-
 module.exports = router;

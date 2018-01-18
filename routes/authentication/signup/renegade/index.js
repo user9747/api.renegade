@@ -43,6 +43,7 @@ router.post('/', function(req, res, next) {
                     // no such user with email exists
                     models.users.create({ first_name: req.body.first_name,
                       second_name: req.body.second_name,
+                      date_of_birth: req.body.date_of_birth,
                       gender: req.body.gender,
                       email: req.body.email,
                       profile_picture: "default.jpeg",

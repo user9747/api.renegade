@@ -17,6 +17,11 @@ module.exports = function(sequelize, DataTypes) {
       unique: false,
       allowNull: false
     },
+    date_of_birth: {
+      type: DataTypes.DATEONLY,
+      unique: false,
+      allowNull: false
+    },
     gender: {
       type: DataTypes.CHAR(1),
       unique: false,
