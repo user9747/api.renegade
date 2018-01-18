@@ -119,7 +119,7 @@ router.post('/', bearerToken(), function(req, res, next) {
                   // user exists
 
                   models.post_like_data.count({
-                    where: { id: post.post_id },
+                    where: { post_id: post.post_id },
                     raw: true
                   }).then(function(like_count){
                     var returnElement = post;
