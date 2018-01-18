@@ -42,7 +42,7 @@ router.post('/', bearerToken(), function(req, res, next) {
               post_id: association.id,
               author_id: userID,
               post_content: req.body.post_content,
-              post_status: req.body.post_status,
+              post_status: "v",
               post_text: req.body.post_text,
               post_image: req.body.post_image
             }, {transaction: t});
