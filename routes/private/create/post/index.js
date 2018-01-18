@@ -55,6 +55,8 @@ router.post('/', bearerToken(), function(req, res, next) {
           "description_slug": "success-post-create",
           "description": "Post successfully created."});
         }).catch(function (err) {
+          console.log(err);
+
           // Transaction has been rolled back
           // err is whatever rejected the promise chain returned to the transaction callback
           res.status(500).json({"state": "failure",
