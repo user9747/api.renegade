@@ -5,11 +5,11 @@ var jwt = require('jsonwebtoken');
 var bearerToken = require('express-bearer-token');
 
 
-var JWTsecret = require('../../../../config/config.js').JWTsecret;
-var JWTaudience = require('../../../../config/config.js').JWTaudience;
-var JWTissuer = require('../../../../config/config.js').JWTissuer;
+var JWTsecret = require('../../../../../config/config.js').JWTsecret;
+var JWTaudience = require('../../../../../config/config.js').JWTaudience;
+var JWTissuer = require('../../../../../config/config.js').JWTissuer;
 
-var models = require('../../../../models');
+var models = require('../../../../../models');
 
 
 router.get('/', function(req, res, next) {

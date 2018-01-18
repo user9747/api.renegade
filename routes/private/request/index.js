@@ -5,6 +5,7 @@ router.get('/', function(req, res, next) {
   res.json({"status": "functional"});
 });
 
-router.use('/post', require('./post'));
+router.use('/follow', require('./follow'));
+
 
 module.exports = router;
