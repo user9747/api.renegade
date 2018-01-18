@@ -96,8 +96,8 @@ router.post('/', bearerToken(), function(req, res, next) {
 
             function asyncPostElementProcess(post)
             {
-              return new Promise(function(resolve){
-                models.users.findAll({
+              return new Promise(function(resolve, reject){
+                models.users.findOne({
                   where: { id: post.author_id },
                   attributes: ['username', 'first_name', 'second_name'],
                   raw: true
@@ -115,15 +115,27 @@ router.post('/', bearerToken(), function(req, res, next) {
                 else
                 {
                   // user exists
-                  var returnElement = post;
 
-                  delete returnElement.author_id;
+                  models.post_like_data.count({
+                    where: { id: post.post_id },
+                    raw: true
+                  }).then(function(like_count){
+                    var returnElement = post;
 
-                  returnElement.author = user;
+                    delete returnElement.author_id;
 
-                  returnObject.push(returnElement);
+                    returnElement.author = user;
 
-                  resolve();
+                    returnElement.like_count = like_count;
+
+                    returnObject.push(returnElement);
+
+                    resolve();
+                  }).catch(function(err){
+                    console.log(err);
+
+                    reject();
+                  });
                 }
               }).catch(function (err) {
                 console.log(err);
@@ -158,6 +170,13 @@ router.post('/', bearerToken(), function(req, res, next) {
     "description_slug": "error-unknown",
     "description": "Unknown error encountered internally."
   });
+}).catch(function (err) {
+  console.log(err);
+  // handle error;
+  res.status(500).json({ "state": "failure",
+  "description_slug": "error-unknown",
+  "description": "Unknown error encountered internally."
+});
 });
 }
 }
