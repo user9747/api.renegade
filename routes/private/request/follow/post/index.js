@@ -12,9 +12,12 @@ var JWTissuer = require('../../../../../config/config.js').JWTissuer;
 var models = require('../../../../../models');
 
 
+
 router.get('/', function(req, res, next) {
   res.json({"status": "functional"});
 });
+
+router.use('/details', require('./details'));
 
 router.post('/', bearerToken(), function(req, res, next) {
   jwt.verify(req.token, JWTsecret, { audience: JWTaudience, issuer: JWTissuer }, function(err, decoded) {
