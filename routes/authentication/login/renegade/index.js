@@ -97,6 +97,7 @@ passport.use(new LocalStrategy(
         res.json({"state": "success",
         "description_slug": "success-login-renegade",
         "description": "Successful login.",
+        "user_name": user.username,
         "token": token});
       })(req,res,next)
     }
