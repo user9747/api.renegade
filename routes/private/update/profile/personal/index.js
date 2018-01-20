@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var jwt = require('jwtwebtoken');
+var jwt = require('jsonwebtoken');
 var bearerToken = require('express-bearer-token');
 
 var _ = require('lodash');
