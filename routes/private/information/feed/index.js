@@ -156,7 +156,16 @@ router.post('/', bearerToken(), function(req, res, next) {
           "description": "Feeds obtained successfully.",
           "data": returnObject
         });
+      }).catch(function(err){
+        console.log(err);
+        // handle error;
+        res.status(500).json({
+          "state": "failure",
+          "description_slug": "error-unknown",
+          "description": "Unknown error encountered internally."
+        });
       });
+
     }
     // res.json({"post_ids": post_ids});
   }).catch(function (err) {
