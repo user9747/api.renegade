@@ -5,11 +5,12 @@ var jwt = require('jsonwebtoken');
 var bearerToken = require('express-bearer-token');
 
 var _ = require('lodash');
-var Promise = require('bluebird');
+var Promise = require("bluebird");
 
-var JWTsecret = require('../../../../../config/config.json').JWTsecret;
-var JWTaudience = require('../../../../../config/config.json').JWTaudience;
-var JWTissuer = require('../../../../../config/config.json').JWTissuer;
+var JWTsecret = require('../../../../config/config.js').JWTsecret;
+var JWTaudience = require('../../../../config/config.js').JWTaudience;
+var JWTissuer = require('../../../../config/config.js').JWTissuer;
 
-var models = require('../../../../../models');
+var models = require('../../../../models');
 
+var sequelize = models.sequelize;
