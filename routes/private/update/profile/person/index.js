@@ -12,3 +12,25 @@ var models = require('../../../../../models');
 
 var Promise = require("bluebird");
 var _ = require("lodash");
+
+router.get('/',function(req,res,next){
+    res.json({'status':'functional'});
+});
+
+router.post('/', function (req, res, next) {
+    jwt.verify(req.token, JWTsecret, { audience: JWTaudience, issuer: JWTissuer }, function (err, decoded) {
+        if (err == null) {
+            
+            return res.json({'success':'false'});
+
+
+        }
+        else{
+            return res.json({'success':'true'});
+        }
+    });
+
+
+});
+
+module.exports = router;
